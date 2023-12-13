@@ -12,8 +12,8 @@ class Servo:
     def __init__(self, cel):
         self.nextAngle = None
         self.cel = cel  # 通道设置
-        self.deg = 0
-        self.time_stamp = round(time.time(), 3)
+        self.deg = 0  # 舵机角度记忆
+        self.time_stamp = round(time.time(), 3)  # 时间戳
         self.now_time = None
         print("舵机初始化时间" + str(self.time_stamp))
         pwm.set_servo_angle(cel, 0)  # 重置舵机
@@ -31,6 +31,7 @@ class Servo:
     def run(self, angle):
         if self.track(angle):
             pwm.set_servo_angle(self.cel, angle)
+        self.deg = angle
 
     def information(self):
         print(self.deg)
