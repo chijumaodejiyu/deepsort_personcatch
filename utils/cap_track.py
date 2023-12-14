@@ -24,12 +24,13 @@ class CapTracker:
         self.dxy = (self.dxy_p[0] * screen_shape[0], self.dxy_p[1] * screen_shape[1])
         self.screen_shape = screen_shape
 
-
     def get_direction(self, item_bbox: list) -> [int, int]:
         x1, y1, x2, y2, _, _ = item_bbox
         direction = [0, 0]
         xc = (x1 + x2 - self.screen_shape[0]) / 2
         yc = (y1 + y2 - self.screen_shape[1]) / 2
+        # xc_p = xc / self.screen_shape[0]
+        # yc_p = yc / self.screen_shape[1]
         if abs(xc) > self.dxy[0]:
             if xc > 0:
                 direction[0] = 1
@@ -44,7 +45,7 @@ class CapTracker:
 
     def track(self, item_bbox: list):
         direction = self.get_direction(item_bbox)
-        print(f"The direction is {direction}.")
+        # print(f"The direction is {direction}.")
         x_direction, y_direction = direction
         if self.x_servo is not None:
             x_angel = self.x_servo.deg + self.dangel[0] * x_direction
@@ -54,4 +55,3 @@ class CapTracker:
             y_angel = self.y_servo.deg + self.dangel[1] * y_direction
             print(f"The y_angel is {y_angel}.")
             self.y_servo.run(y_angel)
-

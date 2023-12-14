@@ -10,7 +10,7 @@ if __name__ == '__main__':
     detector = Detector()
     capture = cv2.VideoCapture(0)
     # 初始化舵机
-    trackers = CapTracker((3, -1), (0, 0))
+    trackers = CapTracker((3, -1), (0, 0), dxy_p=(0.15, 0.15))
     while True:
         start = time.perf_counter()
 
@@ -19,7 +19,10 @@ if __name__ == '__main__':
         if im is None:
             print("Fail to get photo.")
             continue
-        im = cv2.flip(im, 1)  # 画面矫正
+        # 画面矫正
+        # 0: 竖直调转
+        # 1: 水平掉转
+        im = cv2.flip(im, 0)
         # 画面大小传输
         if trackers.screen_shape == (0, 0):
             trackers.set_screen_shape(im.shape)
