@@ -29,9 +29,8 @@ class CapTracker:
         direction = [0, 0]
         xc = (x1 + x2 - self.screen_shape[0]) / 2
         yc = (y1 + y2 - self.screen_shape[1]) / 2
-        xc_p = xc / self.screen_shape[0]
-        yc_p = yc / self.screen_shape[1]
-        print()
+        # xc_p = xc / self.screen_shape[0]
+        # yc_p = yc / self.screen_shape[1]
         if abs(xc) > self.dxy[0]:
             if xc > 0:
                 direction[0] = 1
