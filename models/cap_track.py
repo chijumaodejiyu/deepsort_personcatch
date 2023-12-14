@@ -31,6 +31,7 @@ class CapTracker:
         yc = (y1 + y2 - self.screen_shape[1]) / 2
         # xc_p = xc / self.screen_shape[0]
         # yc_p = yc / self.screen_shape[1]
+        # print(f"Position: {xc_p} : {yc_p}")
         if abs(xc) > self.dxy[0]:
             if xc > 0:
                 direction[0] = 1
@@ -49,9 +50,9 @@ class CapTracker:
         x_direction, y_direction = direction
         if self.x_servo is not None:
             x_angel = self.x_servo.deg + self.dangel[0] * x_direction
-            print(f"The x_angel is {x_angel}.")
+            # print(f"The x_angel is {x_angel}.")
             self.x_servo.run(x_angel)
         if self.y_servo is not None:
             y_angel = self.y_servo.deg + self.dangel[1] * y_direction
-            print(f"The y_angel is {y_angel}.")
+            # print(f"The y_angel is {y_angel}.")
             self.y_servo.run(y_angel)
