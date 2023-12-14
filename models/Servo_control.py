@@ -1,8 +1,7 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 import time
-from pca9685 import PCA9685
-import datetime
+from models.pca9685 import PCA9685
 
 pwm = PCA9685(0x40, debug=True)  # 对象初始化，指定IIC地址
 pwm.setPWMFreq(50)  # 设置PWM的频率
