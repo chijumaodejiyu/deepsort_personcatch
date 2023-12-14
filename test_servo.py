@@ -1,4 +1,4 @@
-from Servo_control import Servo
+from models.Servo_control import Servo
 
 
 cel = int(input('Type channel:'))

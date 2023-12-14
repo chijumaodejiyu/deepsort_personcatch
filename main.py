@@ -1,6 +1,6 @@
 import time
-import tracker
-from detector import Detector
+from models import tracker
+from models.detector import Detector
 from models.cap_track import CapTracker
 import cv2
 
