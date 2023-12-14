@@ -1,7 +1,13 @@
 import time
+<<<<<<< HEAD
 import tracker
 from detector import Detector
 from models.cap_module import CapTracker
+=======
+from models import tracker
+from models.detector import Detector
+from models.cap_track import CapTracker
+>>>>>>> 7b0d974de3e7503e85cb5a49d1531b66853fda28
 import cv2
 
 if __name__ == '__main__':
