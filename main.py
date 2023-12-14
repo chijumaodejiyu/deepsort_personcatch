@@ -1,7 +1,7 @@
 import time
 import tracker
 from detector import Detector
-from models.cap_track import CapTracker
+from models.cap_module import CapTracker
 import cv2
 
 if __name__ == '__main__':
