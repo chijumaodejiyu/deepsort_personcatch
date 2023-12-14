@@ -56,3 +56,8 @@ class CapTracker:
             y_angel = self.y_servo.deg + self.dangel[1] * y_direction
             # print(f"The y_angel is {y_angel}.")
             self.y_servo.run(y_angel)
+
+
+class CapFinder:
+    def __init__(self):
+        pass
