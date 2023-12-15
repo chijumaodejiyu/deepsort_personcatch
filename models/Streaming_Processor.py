@@ -23,8 +23,10 @@ class capThread(threading.Thread):
         cap = cv2.VideoCapture(self.camera_id)  # 打开相机
         while not thread_exit:
             ret, frame = cap.read()  # 读取相机帧
+            width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))  # 获取视频的宽度
+            height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))  # 获取视频的高度
             if ret:
-                frame = cv2.resize(frame, (self.img_width, self.img_height))  # 调整帧大小
+                frame = cv2.resize(frame, (width, height))  # 调整帧大小
                 thread_lock.acquire()  # 获取线程锁
                 self.frame = frame  # 更新帧
                 thread_lock.release()  # 释放线程锁
