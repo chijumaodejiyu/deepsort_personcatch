@@ -7,9 +7,9 @@ thread_lock = threading.Lock()  # 创建一个线程锁
 thread_exit = False  # 线程退出标志
 
 
-class myThread(threading.Thread):
+class capThread(threading.Thread):
     def __init__(self, camera_id, img_height, img_width):
-        super(myThread, self).__init__()
+        super(capThread, self).__init__()
         self.camera_id = camera_id
         self.img_height = img_height
         self.img_width = img_width
@@ -32,13 +32,14 @@ class myThread(threading.Thread):
                 thread_exit = True  # 读取失败时退出线程
         cap.release()  # 释放相机
 
+
 # 示例
 def main():
     global thread_exit
     camera_id = 0
     img_height = 480
     img_width = 640
-    thread = myThread(camera_id, img_height, img_width)  # 创建线程对象
+    thread = capThread(camera_id, img_height, img_width)  # 创建线程对象
     thread.start()  # 启动线程
     while not thread_exit:
         thread_lock.acquire()  # 获取线程锁
