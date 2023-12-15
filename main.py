@@ -7,6 +7,7 @@ import cv2
 if __name__ == '__main__':
     # 初始化 detector
     detector = Detector()
+    # 初始化摄像头
     capture = cv2.VideoCapture(0)
     # 初始化舵机
     trackers = CapTracker((3, -1), (0, 0), dxy_p=(0.15, 0.15))
