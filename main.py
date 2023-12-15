@@ -1,24 +1,36 @@
+import threading
 import time
 from models import tracker
 from models.detector import Detector
 from models.cap_track import CapTracker
 import cv2
+from models.Streaming_Processor import capThread
+
+thread_lock = threading.Lock()  # 创建一个线程锁
+thread_exit = False  # 线程退出标志
 
 if __name__ == '__main__':
     # 初始化 detector
     detector = Detector()
-    # 初始化摄像头
-    capture = cv2.VideoCapture(0)
+    # 初始化摄像头线程
+    # capture = cv2.VideoCapture(0)
+    capture = capThread(0, 480, 640)
     # 初始化舵机
     trackers = CapTracker((3, -1), (0, 0), dxy_p=(0.15, 0.15))
     while True:
         start = time.perf_counter()
-
+        capture.start()  # 启动线程
+        while not thread_exit:
+            thread_lock.acquire()  # 获取线程锁
+            im = capture.get_frame()  # 获取线程中的图像帧
+            thread_lock.release()  # 释放线程锁
+        capture.join()
         # 读取每帧图片
-        _, im = capture.read()
-        if im is None:
-            print("Fail to get photo.")
-            continue
+        # _, im = capture.read()
+        # if im is None:
+        #     print("Fail to get photo.")
+        #     continue
+
         # 画面矫正
         # 0: 竖直调转
         # 1: 水平掉转
@@ -28,11 +40,11 @@ if __name__ == '__main__':
             trackers.set_screen_shape(im.shape)
             print(trackers.dxy)
             print(trackers.screen_shape)
-        width = int(capture.get(cv2.CAP_PROP_FRAME_WIDTH))  # 获取视频的宽度
-        height = int(capture.get(cv2.CAP_PROP_FRAME_HEIGHT))  # 获取视频的高度
+        # width = int(capture.get(cv2.CAP_PROP_FRAME_WIDTH))  # 获取视频的宽度
+        # height = int(capture.get(cv2.CAP_PROP_FRAME_HEIGHT))  # 获取视频的高度
 
-        # 调整至摄像头实际尺寸
-        im = cv2.resize(im, (width, height))
+        # # 调整至摄像头实际尺寸
+        # im = cv2.resize(im, (width, height))
 
         list_bboxs = []
         bboxes = detector.detect(im)
@@ -66,5 +78,5 @@ if __name__ == '__main__':
 
         pass
     pass
-    capture.release()
+    # capture.release() #原有摄像头释放
     cv2.destroyAllWindows()
