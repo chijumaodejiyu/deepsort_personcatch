@@ -1,5 +1,5 @@
 import numpy as np
-from PIL import Image
+import cv2
 
 
 class Regional_monitoring:
@@ -10,8 +10,7 @@ class Regional_monitoring:
         self.image_dir = r"./models/region.png"
 
     def pic_data_read(self):
-        png = Image.open(self.image_dir)
-        data = np.asarray(png)
+        data = cv2.imread(self.image_dir)
         print(data)
 
     def check(self, item_bbox: list):
@@ -29,4 +28,5 @@ class Regional_monitoring:
 
 
 if __name__ == "__main__":
-    test = Regional_monitoring
+    test = Regional_monitoring()
+    test.pic_data_read()
