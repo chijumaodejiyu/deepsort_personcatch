@@ -1,11 +1,9 @@
 from models import tracker
 from models.detector import Detector
 from models.cap_module import CapFinder
+from models.data_process import list_bboxes2dict_bboxes
 import cv2
 
-def get_xxyy(list_bboxes, id) -> list:
-    for item_bbox in list_bboxes:
-        _, _, _, _, _, id = item_bbox
 
 if __name__ == '__main__':
     # 初始化 detector
@@ -15,8 +13,8 @@ if __name__ == '__main__':
     # 初始化追踪器
     finder = CapFinder((3, -1), (0, 0), (90, 90))
     # 初始化数据
-    track_id = None
-    people_id = []
+    track_id = -1
+    ids = []
     while True:
         # start = time.perf_counter()
 
@@ -30,6 +28,7 @@ if __name__ == '__main__':
         # 0: 竖直调转
         # 1: 水平掉转
         im = cv2.flip(im, 0)
+        pic = cv2.flip(pic, 0)
         # 画面大小传输
         if finder.screen_shape == (0, 0):
             finder.screen_shape = im.shape[: -1]
@@ -41,19 +40,23 @@ if __name__ == '__main__':
         im = cv2.resize(im, (width, height))
 
         list_bboxes = []
+        dict_bboxes = {}
         bboxes = detector.detect(im)
 
         # 如果画面中 有bbox
         if len(bboxes) > 0:
             list_bboxes = tracker.update(bboxes, im)
+            dict_bboxes = list_bboxes2dict_bboxes(list_bboxes)
             # 框绘制
             output_image_frame = tracker.draw_bboxes(im, list_bboxes, line_thickness=None)
         else:
             # 如果画面中 没有bbox
             output_image_frame = im
         # 追踪
-        if len(list_bboxes) > 0 and id is not None:
-            item_bbox = get_xxyy(list_bboxes)
+        if len(dict_bboxes.items()) > 0:
+            if track_id == -1:
+                track_id = list(dict_bboxes.keys())[0]
+            item_bbox = dict_bboxes[str(track_id)]
             finder.track(item_bbox)
         cv2.imshow('demo', output_image_frame)
         if pic is not None:
