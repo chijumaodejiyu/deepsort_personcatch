@@ -4,7 +4,7 @@ import cv2
 
 class Regional_monitoring:
     def __init__(self):
-        self.image_dir = "../models/region.png"
+        self.image_dir = "./models/region.png"
         self.monitoring = None
         self.pic_data_read()
 
@@ -15,7 +15,6 @@ class Regional_monitoring:
     def pic_data_read(self):
         data = cv2.imread(self.image_dir, cv2.IMREAD_GRAYSCALE)
         self.monitoring = self.monitoring_process(data)
-        return data
 
     def check(self, item_bbox: list):
         x1, y1, x2, y2, _, _ = item_bbox
