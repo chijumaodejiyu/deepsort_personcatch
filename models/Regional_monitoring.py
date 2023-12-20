@@ -8,7 +8,8 @@ class Regional_monitoring:
         self.monitoring = None
         self.pic_data_read()
 
-    def monitoring_process(self, image: np.ndarray) -> np.ndarray:
+    @staticmethod
+    def monitoring_process(image: np.ndarray) -> np.ndarray:
         return np.where(image == 0, True, False)
 
     def pic_data_read(self):
