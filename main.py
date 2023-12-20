@@ -17,9 +17,12 @@ if __name__ == '__main__':
     monitor = Regional_monitoring()
     # 初始化数据
     track_id = -1
+    track_ids = []
     ids = []
     while True:
         # start = time.perf_counter()
+        print(track_ids)
+        track_ids = []
 
         # 读取每帧图片
         _, im = finder_cap.read()
@@ -56,11 +59,14 @@ if __name__ == '__main__':
             # 如果画面中 没有bbox
             output_image_frame = im
         if len(dict_bboxes.items()) > 0:
+            # 检测
             for id_, item_bbox in dict_bboxes.items():
-                track_id = id_ if monitor.check(item_bbox) else track_id
+                if monitor.check(item_bbox):
+                    track_ids.append(id_)
+        if len(track_ids) > 0:
             # 追踪
-            if track_id == -1:
-                track_id = list(dict_bboxes.keys())[0]
+            if track_id not in track_ids:
+                track_id = track_ids[0]
             item_bbox = dict_bboxes[str(track_id)]
             finder.track(item_bbox)
         cv2.imshow('demo', output_image_frame)
