@@ -2,6 +2,7 @@ from models import tracker
 from models.detector import Detector
 from models.cap_module import CapFinder
 from models.data_process import list_bboxes2dict_bboxes
+from models.Regional_monitoring import Regional_monitoring
 import cv2
 
 
@@ -12,6 +13,8 @@ if __name__ == '__main__':
     tracker_cap = cv2.VideoCapture(0)
     # 初始化追踪器
     finder = CapFinder((3, -1), (0, 0), (90, 90))
+    # 初始化检测器
+    monitor = Regional_monitoring()
     # 初始化数据
     track_id = -1
     ids = []
@@ -52,8 +55,10 @@ if __name__ == '__main__':
         else:
             # 如果画面中 没有bbox
             output_image_frame = im
-        # 追踪
         if len(dict_bboxes.items()) > 0:
+            for id_, item_bbox in dict_bboxes.items():
+                track_id = id_ if monitor.check(item_bbox) else track_id
+            # 追踪
             if track_id == -1:
                 track_id = list(dict_bboxes.keys())[0]
             item_bbox = dict_bboxes[str(track_id)]
