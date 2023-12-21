@@ -17,12 +17,11 @@ if __name__ == '__main__':
     monitor = Regional_monitoring()
     # 初始化数据
     track_id = -1
-    track_ids = []
     ids = []
     while True:
         # start = time.perf_counter()
-        print(track_ids)
         track_ids = []
+        print(track_ids)
 
         # 读取每帧图片
         _, im = finder_cap.read()
