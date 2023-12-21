@@ -1,7 +1,8 @@
 from models.Servo_control import Servo
 
 
-cel = int(input('Type channel:'))
+# cel = int(input('Type channel:'))
+cel = 3
 
 servo = Servo(cel)
 
