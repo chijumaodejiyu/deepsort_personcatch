@@ -1,32 +1,30 @@
 import numpy as np
-from PIL import Image
+import cv2
 
 
 class Regional_monitoring:
     def __init__(self):
-        # self.region = region_input
-        self.solid_coordinates = None
-        self.track_id = -1
-        self.image_dir = r"./models/region.png"
+        self.image_dir = "./models/region.png"
+        self.monitoring = None
+        self.pic_data_read()
+
+    @staticmethod
+    def monitoring_process(image: np.ndarray) -> np.ndarray:
+        return np.where(image == 0, True, False)
 
     def pic_data_read(self):
-        png = Image.open(self.image_dir)
-        data = np.asarray(png)
-        print(data)
+        data = cv2.imread(self.image_dir, cv2.IMREAD_GRAYSCALE)
+        self.monitoring = self.monitoring_process(data)
 
     def check(self, item_bbox: list):
-        try:
-            x1, y1, x2, y2, _, _ = item_bbox
-            xy1 = np.array([x1, y1])
-            xy2 = np.array([x2, y2])
-            xyc = (xy1 + xy2) / 2
-            print(xyc)
-            # self.solid_coordinates = np.mat(((self.x1 + self.x2) / 2), ((self.y1 + self.y2) / 2))
-
-        except:
-            print('can not read item_bbox successfully')
-            pass
+        x1, y1, x2, y2, _, _ = item_bbox
+        xy1 = np.array([x1, y1])
+        xy2 = np.array([x2, y2])
+        xyc = (xy1 + xy2) // 2
+        out = self.monitoring[xyc[1]][xyc[0]]
+        return out
 
 
 if __name__ == "__main__":
-    test = Regional_monitoring
+    test = Regional_monitoring()
+    test.check([160, 160, 170, 170, 0, 0])
