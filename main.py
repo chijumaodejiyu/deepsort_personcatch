@@ -6,8 +6,7 @@ from models.Regional_monitoring import Regional_monitoring
 import cv2
 
 
-if __name__ == '__main__':
-    # 初始化 detector
+def main():# 初始化 detector
     detector = Detector()
     finder_cap = cv2.VideoCapture(1)
     tracker_cap = cv2.VideoCapture(0)
@@ -61,8 +60,10 @@ if __name__ == '__main__':
         if len(dict_bboxes.items()) > 0:
             # 检测
             for id_, item_bbox in dict_bboxes.items():
-                if monitor.check(item_bbox):
-                    track_ids.append(id_)
+                # if monitor.check(item_bbox):
+                #     track_ids.append(id_)
+                track_ids.append(id_)
+
         if len(track_ids) > 0:
             # 追踪
             if track_id not in track_ids:
@@ -79,3 +80,7 @@ if __name__ == '__main__':
     finder_cap.release()
     tracker_cap.release()
     cv2.destroyAllWindows()
+
+
+if __name__ == '__main__':
+    main()
