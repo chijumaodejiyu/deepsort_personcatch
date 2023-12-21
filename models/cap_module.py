@@ -104,13 +104,9 @@ class CapFinder:
         # 计算中心
         xyc = (xy1 + xy2 - screen_shape) / 2
         # 计算角度
-        angel = np.arctan(np.tan(screen_angel / 2) * (xyc / self.screen_shape))
-        # 转比例
-        angel = angel / (np.pi * 2)
-        # 转角度制
-        angel = 360 * angel
+        angel = (xyc / screen_shape) * screen_angel
         angel = angel + screen_angel / 2
-        print(angel)
+        # print(angel)
         return angel
 
     def track(self, item_bbox: list):
