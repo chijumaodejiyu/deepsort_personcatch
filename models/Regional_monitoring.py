@@ -8,11 +8,14 @@ class Regional_monitoring:
         self.monitoring = None
         self.pic_data_read()
 
-    def monitoring_process(self, image: np.ndarray) -> np.ndarray:
+    @staticmethod
+    def monitoring_process(image: np.ndarray) -> np.ndarray:
         return np.where(image == 0, True, False)
 
     def pic_data_read(self):
         data = cv2.imread(self.image_dir, cv2.IMREAD_GRAYSCALE)
+        if data is None:
+            raise ValueError("Failed to load image at {}".format(self.image_dir))
         self.monitoring = self.monitoring_process(data)
 
     def check(self, item_bbox: list):
