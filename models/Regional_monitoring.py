@@ -23,6 +23,9 @@ class Regional_monitoring:
         out = self.monitoring[xyc[1]][xyc[0]]
         return out
 
+    def draw(self, image):
+        picture = image
+
 
 if __name__ == "__main__":
     test = Regional_monitoring()
