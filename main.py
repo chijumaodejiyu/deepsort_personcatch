@@ -2,6 +2,7 @@ from models import tracker
 from models.detector import Detector
 from models.cap_module import CapFinder
 from models.data_process import list_bboxes2dict_bboxes
+from Gui import Gui
 import cv2
 
 
@@ -11,7 +12,9 @@ if __name__ == '__main__':
     finder_cap = cv2.VideoCapture(1)
     tracker_cap = cv2.VideoCapture(0)
     # 初始化追踪器
-    finder = CapFinder((3, -1), (0, 0), (90, 90))
+    finder = CapFinder((3, -1), (0, 0), (120, 90))
+    # 初始化Gui界面
+    gui = Gui()
     # 初始化数据
     track_id = -1
     ids = []
@@ -39,6 +42,11 @@ if __name__ == '__main__':
         # 调整至摄像头实际尺寸
         im = cv2.resize(im, (width, height))
 
+        gui.update()
+        event = gui.event
+        if event in ('Exit', None):
+            break
+
         list_bboxes = []
         dict_bboxes = {}
         bboxes = detector.detect(im)
@@ -54,6 +62,9 @@ if __name__ == '__main__':
             output_image_frame = im
         # 追踪
         if len(dict_bboxes.items()) > 0:
+            ids = dict_bboxes.keys()
+            
+            track_id = gui.get_id()
             if track_id == -1:
                 track_id = list(dict_bboxes.keys())[0]
             item_bbox = dict_bboxes[str(track_id)]
