@@ -16,7 +16,7 @@ if __name__ == '__main__':
     # 初始化Gui界面
     gui = Gui()
     # 初始化数据
-    track_id = -1
+    track_id = ''
     ids = []
     while True:
         # start = time.perf_counter()
@@ -44,8 +44,6 @@ if __name__ == '__main__':
 
         gui.update()
         event = gui.event
-        if event in ('Exit', None):
-            break
 
         list_bboxes = []
         dict_bboxes = {}
@@ -60,20 +58,25 @@ if __name__ == '__main__':
         else:
             # 如果画面中 没有bbox
             output_image_frame = im
+
+        ids = list(dict_bboxes.keys())
+        gui.add_id(ids)
+        track_id = gui.get_id()
+
         # 追踪
         if len(dict_bboxes.items()) > 0:
-            ids = dict_bboxes.keys()
-            
-            track_id = gui.get_id()
-            if track_id == -1:
-                track_id = list(dict_bboxes.keys())[0]
-            item_bbox = dict_bboxes[str(track_id)]
-            finder.track(item_bbox)
-        cv2.imshow('demo', output_image_frame)
-        if pic is not None:
-            cv2.imshow('picture', pic)
-        key = cv2.waitKey(1)
-        if key == ord('q'):
+            if track_id in dict_bboxes.keys():
+                print(ids)
+                print(track_id)
+                item_bbox = dict_bboxes[str(track_id)]
+                finder.track(item_bbox)
+        # cv2.imshow('demo', output_image_frame)
+        # if pic is not None:
+        #     cv2.imshow('picture', pic)
+        # key = cv2.waitKey(1)
+        gui.update_image('-FINDER-', output_image_frame)
+        gui.update_image('-TRACKER-', pic)
+        if event in ('Exit', None):
             break
         # print("fps:{}".format(1 / (time.perf_counter() - start)))
     finder_cap.release()

@@ -6,5 +6,5 @@ def list_bboxes2dict_bboxes(list_bboxes: list) -> dict:
 
     for item_bbox in list_bboxes:
         x1, y1, x2, y2, lbl, id_ = item_bbox
-        dict_bboxes[str(id)] = (x1, y1, x2, y2, lbl, id_)
+        dict_bboxes[str(id_)] = (x1, y1, x2, y2, lbl, id_)
     return dict_bboxes

@@ -6,12 +6,13 @@ import cv2 as cv
 class Gui:
     def __init__(self):
         # ---===--- define the window layout --- #
-        self.layout = [[sg.Combo((0, 1), size=(10, 1), default_value=0, key='-ID-')],
+        self.layout = [[sg.Combo([], size=(10, 1), default_value=None, key='-ID-')],
                        [sg.Image(key='-FINDER-'), sg.Image(key='-TRACKER-')]]
 
         # create the window and show it without the plot
         self.window = sg.Window('Window', self.layout, no_titlebar=False, location=(500, 300))
         self.combo_elem = self.window['-ID-']
+        self.list_ids = []
         self.event = None
         self.value = None
 
@@ -23,24 +24,32 @@ class Gui:
         imgbytes = cv.imencode('.ppm', image)[1].tobytes()
         image_elem.update(data=imgbytes)
 
-    def update_id(self, ids):
-        last_id = self.get_id()
-        if last_id in ids:
-            val = last_id
-        else:
-            val = ids[0]
-        self.combo_elem.update(value=val, values=ids)
+    # def update_id(self, ids):
+    #     val = self.last_id
+    #     self.combo_elem.update(value=val, values=ids)
+
+    def add_id(self, ids):
+        for id_ in ids:
+            if id_ not in self.list_ids:
+                self.list_ids.append(id_)
+        val = self.combo_elem.get()
+        self.combo_elem.update(value=val, values=self.list_ids)
 
     def get_id(self):
-        return self.combo_elem.get()
+        temp_id = self.combo_elem.get()
+        # if temp_id not in ('', None):
+        #     self.last_id = temp_id
+        return temp_id
 
 
 if __name__ == '__main__':
     gui = Gui()
+    i = 0
     while True:
         gui.update()
-        gui.update_id([1, 2, 3, 4])
+        gui.add_id(list(range(i//10)))
         event = gui.event
         value = gui.value
+        i += 1
         if event in ('Exit', None):
             break
