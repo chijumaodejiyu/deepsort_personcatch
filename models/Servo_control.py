@@ -15,7 +15,7 @@ class Servo:
         self.time_stamp = round(time.time(), 3)  # 时间戳
         self.now_time = None
         print("舵机初始化时间" + str(self.time_stamp))
-        # pwm.set_servo_angle(cel, 0)  # 重置舵机
+        pwm.set_servo_angle(cel, 90)  # 重置舵机
 
     def check(self, track_angle):
         if track_angle < 0 or track_angle > 180:

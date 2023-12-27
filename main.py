@@ -31,7 +31,7 @@ if __name__ == '__main__':
         # 0: 竖直调转
         # 1: 水平掉转
         im = cv2.flip(im, 0)
-        pic = cv2.flip(pic, 0)
+        # pic = cv2.flip(pic, 0)
         # 画面大小传输
         if finder.screen_shape == (0, 0):
             finder.screen_shape = im.shape[: -1]
@@ -70,10 +70,6 @@ if __name__ == '__main__':
                 print(track_id)
                 item_bbox = dict_bboxes[str(track_id)]
                 finder.track(item_bbox)
-        # cv2.imshow('demo', output_image_frame)
-        # if pic is not None:
-        #     cv2.imshow('picture', pic)
-        # key = cv2.waitKey(1)
         gui.update_image('-FINDER-', output_image_frame)
         gui.update_image('-TRACKER-', pic)
         if event in ('Exit', None):
