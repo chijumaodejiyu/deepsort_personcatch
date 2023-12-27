@@ -6,7 +6,7 @@ import os
 class Regional_monitoring:
     def __init__(self):
         # 定义监控图像路径
-        self.image_dir = "region.png"
+        self.image_dir = 'region.png'
         # 初始化监控数据，稍后在读取图像后赋值
         self.monitoring = None
         # 读取图像数据
