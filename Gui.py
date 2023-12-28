@@ -7,11 +7,13 @@ class Gui:
     def __init__(self):
         # ---===--- define the window layout --- #
         self.layout = [[sg.Combo([], size=(10, 1), default_value=None, key='-ID-')],
-                       [sg.Image(key='-FINDER-'), sg.Image(key='-TRACKER-')]]
+                       [sg.Image(key='-FINDER-'), sg.Image(key='-TRACKER-')],
+                       [sg.Text('nothing', background_color='white', text_color='black', key='-OUTPUT-')]]
 
         # create the window and show it without the plot
         self.window = sg.Window('Window', self.layout, no_titlebar=False, location=(500, 300))
         self.combo_elem = self.window['-ID-']
+        self.text_elem = self.window['-OUTPUT-']
         self.list_ids = []
         self.event = None
         self.value = None
@@ -40,6 +42,12 @@ class Gui:
         # if temp_id not in ('', None):
         #     self.last_id = temp_id
         return temp_id
+
+    def update_txt_output(self, issafe):
+        if issafe:
+            self.text_elem.update('The target' + str(self.get_id()) + 'is in a danger zone', text_color='yellow', background_color='red')
+        else:
+            self.text_elem.update('The target' + str(self.get_id()) + 'is in a safe zone', text_color='black', background_color='white')
 
 
 if __name__ == '__main__':
