@@ -75,6 +75,11 @@ if __name__ == '__main__':
                 print(track_id)
                 item_bbox = dict_bboxes[str(track_id)]
                 finder.track(item_bbox)
+                # 危险区域判定
+                monitor_id = gui.get_id()
+                if monitor.check(item_bbox):  # 侦测到box处于危险区域
+                    print(str(monitor_id)+'号目标处于危险区域')
+                    pass
         gui.update_image('-FINDER-', output_image_frame)
         gui.update_image('-TRACKER-', pic)
         if event in ('Exit', None):
